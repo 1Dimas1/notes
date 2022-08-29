@@ -1,0 +1,27 @@
+body {
+  background-color: SlateBlue;
+}
+h2 {
+  color: Orange;
+  font-family: verdana;
+  font-size: 300%;
+}
+p {
+  color: Tomato;
+  font-family: Broadway;
+  font-size: 190%;
+}
+th, td {
+  border: 5px solid chartreuse;
+  border-radius: 10px;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  padding-left: 30px;
+  padding-right: 40px;
+}
+td {
+  text-align: center;
+}
+table {
+  background-color: rgba(150, 212, 212, 0.4)
+}

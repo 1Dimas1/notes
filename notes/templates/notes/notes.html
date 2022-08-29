@@ -1,0 +1,18 @@
+{% extends "notes/base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<table>
+<tr>
+{% for time in day_routine.keys %}
+    <th><h2> {{ time }}  </h2></th>
+{% endfor %}
+</tr>
+<tr>
+{% for task in day_routine.values %}
+    <td><p> {{ task }} </p></td>
+{% endfor %}
+</tr>
+</table>
+{% endblock %}
