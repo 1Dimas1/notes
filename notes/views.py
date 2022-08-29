@@ -14,4 +14,4 @@ def greeting(request):
 
 def routine(request):
 
-    return render(request, 'notes/notes.html', {'day_routine': day_routine, 'title': 'My daily routine'})
+    return render(request, 'notes/routine.html', {'day_routine': day_routine, 'title': 'My daily routine'})
