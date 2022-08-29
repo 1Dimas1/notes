@@ -8,10 +8,10 @@ day_routine = {
 }
 
 
-def index(request):
+def greeting(request):
     return HttpResponse('Hello from Notes app.')
 
 
-def notes(request):
+def routine(request):
 
     return render(request, 'notes/notes.html', {'day_routine': day_routine, 'title': 'My daily routine'})
