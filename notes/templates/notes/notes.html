@@ -1,5 +1,9 @@
 {% extends "notes/base.html" %}
 
+{% load static %}
+
+{% block css_addition %} <link rel="stylesheet" href="{% static 'notes/css/styles.css' %}"> {% endblock css_addition %}
+
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
