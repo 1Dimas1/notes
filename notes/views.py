@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import *
 
 day_routine = {
     '8:00': 'Wake up', '8:10': 'brush your teeth', '8:30': 'have breakfast', '10:00': 'do some sports',
@@ -15,3 +16,13 @@ def greeting(request):
 def routine(request):
 
     return render(request, 'notes/routine.html', {'day_routine': day_routine, 'title': 'My daily routine'})
+
+
+def notes(request):
+    categories = Category.objects.all()
+    context = {
+        'categories': categories,
+        'title': 'Notes'
+    }
+
+    return render(request, 'notes/notes.html', context=context)
