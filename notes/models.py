@@ -1,15 +1,19 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Note(models.Model):
     title = models.CharField(max_length=250, verbose_name='Title')
     text = models.TextField(verbose_name='Text')
-    reminder = models.CharField(max_length=300, verbose_name='Reminder', blank=True)
-    cat = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name='Category id')
+    reminder = models.DateField(max_length=100, verbose_name='Reminder', blank=True)
+    cat = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name='Category')
 
     class Meta:
         ordering = ['title']
         verbose_name_plural = 'Notes'
+
+    def get_absolute_url(self):
+        return reverse('note-detail', kwargs={'pk': self.pk})
 
     def __str__(self):
         return self.title

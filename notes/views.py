@@ -1,28 +1,54 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+
+
+from .forms import NotesFormAdd
 from .models import *
-
-day_routine = {
-    '8:00': 'Wake up', '8:10': 'brush your teeth', '8:30': 'have breakfast', '10:00': 'do some sports',
-    '11:00': 'take a shower', '12:00 - 18:00': 'study', '18:00 - 19:00': 'break', '19:00 - 21:00': 'study',
-    '21:00': 'supper', '23:00': 'go to sleep'
-}
+from .filters import OrderFilter
 
 
-def greeting(request):
-    return HttpResponse('Hello from Notes app.')
+class HomeNotesView(ListView):
+    model = Note
+    template_name = 'notes/home_notes_list.html'
+    context_object_name = 'notes'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        queryset = self.get_queryset()
+        my_filter = OrderFilter(self.request.GET, queryset)
+        context['title'] = 'Main page'
+        context['filter'] = my_filter
+        return context
 
 
-def routine(request):
+class NoteDetailView(DetailView):
+    model = Note
+    template_name = 'notes/note_details.html'
 
-    return render(request, 'notes/routine.html', {'day_routine': day_routine, 'title': 'My daily routine'})
+
+class CreateNoteView(CreateView):
+    form_class = NotesFormAdd
+    template_name = 'notes/add_note.html'
 
 
-def notes(request):
-    categories = Category.objects.all()
-    context = {
-        'categories': categories,
-        'title': 'Notes'
-    }
+class UpdateNoteView(UpdateView):
+    model = Note
+    form_class = NotesFormAdd
+    template_name = 'notes/edit_note.html'
 
-    return render(request, 'notes/notes.html', context=context)
+
+class DeleteNoteView(DeleteView):
+    model = Note
+    template_name = 'notes/delete_note.html'
+    success_url = reverse_lazy('home')
+
+
+def search(request):
+    if request.method == "POST":
+        searched = request.POST.get('searched')
+        notes = Note.objects.filter(title__contains=searched)
+        return render(request, 'notes/search.html', {'searched': searched, 'notes': notes})
+    else:
+        return render(request, 'notes/search.html', {})

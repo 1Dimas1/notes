@@ -1,0 +1,28 @@
+{% extends 'notes/base.html' %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+<div style="text-align:center">
+{% if searched %}
+<h1><br/>Search results for {{searched}}:</h1>
+    </div>
+<div>
+    <br/>
+    {% for note in notes %}
+    <li><a href="{% url 'note-detail' note.pk %}">{{note.title}}</a><br/>
+       {{note.text}}<br/>
+        {{note.reminder}}
+        <a href="{% url 'edit-note' note.pk %}" class="btn btn-info">Edit</a>
+        <a href="{% url 'delete-note' note.pk %}" class="btn btn-danger">Delete</a>
+    </li>
+    {% endfor %}
+</ul>
+</div>
+{% else %}
+
+<h1><br/>Ooops! something goes wrong!</h1>
+
+{% endif %}
+
+{% endblock content %}

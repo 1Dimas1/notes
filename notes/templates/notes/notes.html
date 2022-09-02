@@ -14,12 +14,14 @@
     <th><h2> Note title </h2></th>
     <th><h2> Note text </h2></th>
     <th><h2> Category id </h2></th>
+  <th><h2> Reminder </h2></th>
   </tr>
     <tr style="height:50px">
     {% for note in category.note_set.all %}
       <td><h4>{{note.title}}</h4></td>
         <td style="width:40%"><p>{{note.text}}</p></td>
       <td><p>{{note.cat_id}}</p></td>
+      <td><p>{{note.reminder}}</p></td>
       </tr>
     {% endfor %}
   {% endfor %}
