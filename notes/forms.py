@@ -1,7 +1,8 @@
 from django import forms
+from django.core.exceptions import ValidationError
+
 from .models import Note
 import re
-from django.core.exceptions import ValidationError
 
 
 class NotesFormAdd(forms.ModelForm):
@@ -20,5 +21,4 @@ class NotesFormAdd(forms.ModelForm):
         if re.match(r'\d', title):
             raise ValidationError('Title shouldn`t start with number')
         return title
-
 

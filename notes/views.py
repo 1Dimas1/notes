@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
@@ -7,6 +7,32 @@ from django.views.generic import ListView, CreateView, DetailView, UpdateView, D
 from .forms import NotesFormAdd
 from .models import *
 from .filters import OrderFilter
+
+
+class JsonableResponseMixin:
+    """
+    Mixin to add JSON support to a form.
+    Must be used with an object-based FormView (e.g. CreateView)
+    """
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        if self.request.accepts('text/html'):
+            return response
+        else:
+            return JsonResponse(form.errors, status=400)
+
+    def form_valid(self, form):
+        # We make sure to call the parent's form_valid() method because
+        # it might do some processing (in the case of CreateView, it will
+        # call form.save() for example).
+        response = super().form_valid(form)
+        if self.request.accepts('text/html'):
+            return response
+        else:
+            data = {
+                'pk': self.object.pk,
+            }
+            return JsonResponse(data)
 
 
 class HomeNotesView(ListView):
@@ -28,7 +54,7 @@ class NoteDetailView(DetailView):
     template_name = 'notes/note_details.html'
 
 
-class CreateNoteView(CreateView):
+class CreateNoteView(JsonableResponseMixin, CreateView):
     form_class = NotesFormAdd
     template_name = 'notes/add_note.html'
 
@@ -49,6 +75,6 @@ def search(request):
     if request.method == "POST":
         searched = request.POST.get('searched')
         notes = Note.objects.filter(title__contains=searched)
-        return render(request, 'notes/search.html', {'searched': searched, 'notes': notes})
+        return render(request, 'notes/search.html', {'searched': searched, 'notes': notes, 'title': 'Search'})
     else:
         return render(request, 'notes/search.html', {})

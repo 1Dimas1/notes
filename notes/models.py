@@ -3,10 +3,10 @@ from django.urls import reverse
 
 
 class Note(models.Model):
-    title = models.CharField(max_length=250, verbose_name='Title')
-    text = models.TextField(verbose_name='Text')
+    title = models.CharField(max_length=250, verbose_name='Title', blank=True)
+    text = models.TextField(verbose_name='Text', blank=True)
     reminder = models.DateField(max_length=100, verbose_name='Reminder', blank=True)
-    cat = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name='Category')
+    cat = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name='Category', blank=True)
 
     class Meta:
         ordering = ['title']
