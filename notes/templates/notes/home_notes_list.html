@@ -7,19 +7,33 @@
 <h1>Notes</h1>
 <div class="card card-body">
 <form method="get">
-{{filter.form}}
+{% csrf_token %}{{filter.form}}
     <button class="btn btn-primary" type="submit">Filter</button>
 </form>
 </div>
-<ul>
     {% for note in filter.qs%}
-    <li><a href="{% url 'note-detail' note.pk %}">{{note.title}}</a><br/>
-       {{note.text}}<br/>
-        {{note.reminder}}
-        <a href="{% url 'edit-note' note.pk %}" class="btn btn-info">Edit</a>
-        <a href="{% url 'delete-note' note.pk %}" class="btn btn-danger">Delete</a>
-    </li>
+    <div class="card mt-2">
+    <div class="card-header">Author: <strong>{{note.author.username}}</strong></div>
+    <div class="card-body d-flex flex-row justify-content-between">
+        <div>
+            <h4 class="card-title"><a href="{% url 'note-detail' note.pk %}">{{note.title}}</a></h4>
+            <div><p style="width:70%;">{{note.text}}</p></div>
+        </div>
+        <div>
+            {% if user == note.author %}
+            <div><a href="{% url 'edit-note' note.pk %}" class="btn btn-sm btn-primary px-3">Edit</a></div>
+            </br>
+            <div><a href="{% url 'delete-note' note.pk %}" class="btn btn-sm btn-danger">Delete</a></div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card-footer text-muted"> Reminder: {{note.reminder}} </div>
+    </div>
+    {% empty %}
+    </br>
+    <div class="text-center"><h4>You have no notes yet</h4></div>
     {% endfor %}
-</ul>
+
+
 
 {% endblock content %}

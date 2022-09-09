@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
+import datetime
 
 
 class Note(models.Model):
@@ -7,6 +9,9 @@ class Note(models.Model):
     text = models.TextField(verbose_name='Text', blank=True)
     reminder = models.DateField(max_length=100, verbose_name='Reminder', blank=True)
     cat = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name='Category', blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     class Meta:
         ordering = ['title']

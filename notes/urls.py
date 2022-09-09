@@ -9,5 +9,6 @@ urlpatterns = [
     path('note/edit/<int:pk>', UpdateNoteView.as_view(), name='edit-note'),
     path('note/<int:pk>/remove', DeleteNoteView.as_view(), name='delete-note'),
     path('search', views.search, name='search'),
+    path('sign_up', views.sign_up, name='sign-up'),
 
 ]

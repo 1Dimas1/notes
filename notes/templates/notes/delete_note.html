@@ -4,13 +4,15 @@
 
 {% block content %}
 
-<h1>Delete Note</h1>
-<h3>Delete: {{note.title}} </h3>
+<div class="text-center"><h1>Delete Note</h1></div>
+</br>
 <br/>
 <div class="form-group">
+    <div>
+    <h3>Delete: {{note.title}} </h3></div>
 <form method="POST">
     {% csrf_token %}
-    <strong>Are you sure about this?</strong><br/><br/>
+    <strong>Are you sure about that?</strong><br/><br/>
     <button class="btn btn-danger">Delete</button>
 </form>
 </div>

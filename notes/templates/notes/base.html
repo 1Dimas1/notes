@@ -20,9 +20,6 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-<!--      <li class="nav-item active">-->
-<!--        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>-->
-<!--      </li>-->
       <li class="nav-item">
         <a class="nav-link" href="{% url 'create_note' %}">Add Note</a>
       </li>
@@ -41,6 +38,7 @@
 <!--        <a class="nav-link disabled">Disabled</a>-->
 <!--      </li>-->
     </ul>
+    <div>
     <form class="form-inline my-2 my-lg-0" method="post" action="{% url 'search' %}">
 
       {% csrf_token %}
@@ -48,6 +46,21 @@
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searched">
       <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
     </form>
+      </div>
+    <div>
+    <ul class="navbar-nav mr-auto">
+      {% if user.is_authenticated %}
+      <span class="navbar-text">Logged in as {{user.username}} | </span>
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">Logout</a>
+      </li>
+      {% else %}
+      <li class="nav-item active">
+        <a class="nav-link" href="/login">Login <span class="sr-only">(current)</span></a>
+      </li>
+      {% endif %}
+      </ul>
+      </div>
   </div>
 </nav>
 
